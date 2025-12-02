@@ -1,53 +1,56 @@
 package com.runanywhere.startup_hackathon20.ui.theme
 
-import android.app.Activity
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
+
+
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = cyan_500,
+    onPrimary = dark_blue_900,
+    primaryContainer = dark_blue_700,
+    onPrimaryContainer = cyan_300,
+    secondary = cyan_accent,
+    onSecondary = dark_blue_900,
+    secondaryContainer = cyan_700,
+    onSecondaryContainer = white,
+    background = dark_blue_900,
+    onBackground = cyan_300,
+    surface = dark_blue_700,
+    onSurface = cyan_300,
+    surfaceVariant = dark_blue_500,
+    onSurfaceVariant = cyan_300
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
+    primary = dark_blue_500,
+    onPrimary = white,
+    primaryContainer = cyan_300,
+    onPrimaryContainer = dark_blue_900,
+    secondary = cyan_700,
+    onSecondary = white,
+    secondaryContainer = cyan_500,
+    onSecondaryContainer = dark_blue_900,
+    background = white,
+    onBackground = dark_blue_900,
+    surface = cyan_300,
+    onSurface = dark_blue_900,
+    surfaceVariant = cyan_500,
+    onSurfaceVariant = dark_blue_900
 )
 
 @Composable
-fun Startup_hackathon20Theme(
+fun EventPlannerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val colorScheme = if (darkTheme) {
+        DarkColorScheme
+    } else {
+        LightColorScheme
     }
 
     MaterialTheme(

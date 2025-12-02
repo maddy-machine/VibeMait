@@ -2,9 +2,9 @@ package com.runanywhere.startup_hackathon20
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.runanywhere.sdk.models.ModelInfo
 import com.runanywhere.sdk.public.RunAnywhere
 import com.runanywhere.sdk.public.extensions.listAvailableModels
-import com.runanywhere.sdk.models.ModelInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -33,7 +33,7 @@ class ChatViewModel : ViewModel() {
     private val _currentModelId = MutableStateFlow<String?>(null)
     val currentModelId: StateFlow<String?> = _currentModelId
 
-    private val _statusMessage = MutableStateFlow<String>("Initializing...")
+    private val _statusMessage = MutableStateFlow("Initializing...")
     val statusMessage: StateFlow<String> = _statusMessage
 
     init {
@@ -68,6 +68,15 @@ class ChatViewModel : ViewModel() {
             }
         }
     }
+
+    fun sendMessageWithContext(userMessage: String, event: Event) {
+        val contextPrompt = "You are an AI event planning assistant. Help plan this event:\nEvent: ${event.name}\nType: ${event.type}\nDate: ${event.date}\nBudget: ₹${event.budget}\n\nUser question: $userMessage"
+
+        // Use existing sendMessage logic with contextPrompt
+        sendMessage(contextPrompt)
+    }
+
+
 
     fun loadModel(modelId: String) {
         viewModelScope.launch {

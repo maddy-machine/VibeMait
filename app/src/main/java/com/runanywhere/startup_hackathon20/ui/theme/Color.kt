@@ -2,10 +2,20 @@ package com.runanywhere.startup_hackathon20.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+// Cyan colors
+val cyan_300 = Color(0xFF4DD0E1)
+val cyan_500 = Color(0xFF00BCD4)
+val cyan_700 = Color(0xFF0097A7)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+// Dark Blue colors
+val dark_blue_300 = Color(0xFF4A6FA5)
+val dark_blue_500 = Color(0xFF1E3A5F)
+val dark_blue_700 = Color(0xFF0D1F3C)
+val dark_blue_900 = Color(0xFF050B18)
+
+// Accent
+val cyan_accent = Color(0xFF00E5FF)
+
+// Standard colors
+val white = Color(0xFFFFFFFF)
+val black = Color(0xFF000000)

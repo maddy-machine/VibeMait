@@ -1,8 +1,8 @@
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlinx.serialization)
 }
 
 android {
@@ -42,47 +42,44 @@ android {
 
 dependencies {
     // RunAnywhere SDK - Local AARs from GitHub Release v0.1.3-alpha
-    // Core SDK (4.01MB)
     implementation(files("libs/RunAnywhereKotlinSDK-release.aar"))
-    // LLM Module (2.12MB) - includes llama.cpp with 7 ARM64 CPU variants
     implementation(files("libs/runanywhere-llm-llamacpp-release.aar"))
 
-    // Required SDK dependencies (transitive dependencies from AARs)
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
-    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.1")
+    // Ktor Bill of Materials to ensure version consistency
+    implementation(platform("io.ktor:ktor-bom:2.3.11"))
 
-    // Ktor for networking (required by SDK)
-    implementation("io.ktor:ktor-client-core:3.0.3")
-    implementation("io.ktor:ktor-client-okhttp:3.0.3")
-    implementation("io.ktor:ktor-client-content-negotiation:3.0.3")
-    implementation("io.ktor:ktor-client-logging:3.0.3")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.3")
+    // Required SDK dependencies (versions managed by BOMs where applicable)
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
 
-    // OkHttp (required by SDK)
+    implementation("io.ktor:ktor-client-core")
+    implementation("io.ktor:ktor-client-okhttp")
+    implementation("io.ktor:ktor-client-content-negotiation")
+    implementation("io.ktor:ktor-client-logging")
+    implementation("io.ktor:ktor-serialization-kotlinx-json")
+
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
 
-    // Retrofit (required by SDK)
     implementation("com.squareup.retrofit2:retrofit:2.11.0")
     implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("com.google.code.gson:gson:2.10.1")
 
-    // Gson (required by SDK)
-    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.squareup.okio:okio:3.9.0")
 
-    // Okio (required by SDK)
-    implementation("com.squareup.okio:okio:3.9.1")
-
-    // AndroidX WorkManager (required by SDK)
-    implementation("androidx.work:work-runtime-ktx:2.10.0")
-
-    // AndroidX Room (required by SDK)
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
-
-    // AndroidX Security (required by SDK)
     implementation("androidx.security:security-crypto:1.1.0-alpha06")
+
+
+    // Navigation dependencies
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // Required for XML themes
+    implementation("com.google.android.material:material:1.12.0")
 
     // Standard app dependencies
     implementation(libs.androidx.core.ktx)

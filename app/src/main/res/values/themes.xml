@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="Theme.EventPlanner" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary colors -->
+        <item name="colorPrimary">@color/dark_blue_500</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/cyan_300</item>
+        <item name="colorOnPrimaryContainer">@color/dark_blue_900</item>
 
-    <style name="Theme.Startup_hackathon20" parent="android:Theme.Material.Light.NoActionBar" />
+        <!-- Secondary colors -->
+        <item name="colorSecondary">@color/cyan_700</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/cyan_500</item>
+        <item name="colorOnSecondaryContainer">@color/dark_blue_900</item>
+
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorOnBackground">@color/dark_blue_900</item>
+
+        <!-- Surface colors -->
+        <item name="colorSurface">@color/cyan_300</item>
+        <item name="colorOnSurface">@color/dark_blue_900</item>
+        <item name="colorSurfaceVariant">@color/cyan_500</item>
+        <item name="colorOnSurfaceVariant">@color/dark_blue_900</item>
+
+        <!-- Status bar -->
+        <item name="android:statusBarColor">@color/dark_blue_500</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
 </resources>
