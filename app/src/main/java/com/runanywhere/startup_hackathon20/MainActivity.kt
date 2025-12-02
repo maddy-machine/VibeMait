@@ -32,7 +32,8 @@ class MainActivity : ComponentActivity() {
             EventPlannerTheme {
                 val eventViewModel: EventViewModel = viewModel()
                 val chatViewModel: ChatViewModel = viewModel()
-                EventPlannerApp(eventViewModel, chatViewModel)
+                val loginViewModel: LoginViewModel = viewModel()
+                EventPlannerApp(eventViewModel, chatViewModel, loginViewModel)
             }
         }
     }
@@ -41,11 +42,29 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun EventPlannerApp(
     eventViewModel: EventViewModel,
-    chatViewModel: ChatViewModel
+    chatViewModel: ChatViewModel,
+    loginViewModel: LoginViewModel
 ) {
     val navController = rememberNavController()
+    val loginState by loginViewModel.loginState
 
-    NavHost(navController, startDestination = "event_list") {
+    NavHost(navController, startDestination = "login") {
+        composable("login") {
+            LoginScreen(
+                loginViewModel = loginViewModel,
+                loginState = loginState,
+                onLoginClicked = { loginViewModel.login() }
+            )
+
+            LaunchedEffect(loginState) {
+                if (loginState is LoginState.Success) {
+                    navController.navigate("event_list") {
+                        popUpTo("login") { inclusive = true }
+                    }
+                    loginViewModel.resetLoginState() // Reset state after navigation
+                }
+            }
+        }
         composable("event_list") {
             EventListScreen(
                 events = eventViewModel.events,
