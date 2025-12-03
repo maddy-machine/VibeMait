@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,6 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.runanywhere.startup_hackathon20.ui.theme.EventPlannerTheme
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,13 +49,19 @@ fun EventPlannerApp(
 ) {
     val navController = rememberNavController()
     val loginState by loginViewModel.loginState
+    val signUpState by loginViewModel.signUpState
+    val scope = rememberCoroutineScope()
 
     NavHost(navController, startDestination = "login") {
         composable("login") {
             LoginScreen(
-                loginViewModel = loginViewModel,
                 loginState = loginState,
-                onLoginClicked = { loginViewModel.login() }
+                onLoginClicked = { email, password ->
+                    scope.launch {
+                        loginViewModel.login(email, password)
+                    }
+                },
+                onSignUpClicked = { navController.navigate("signup") }
             )
 
             LaunchedEffect(loginState) {
@@ -65,13 +73,40 @@ fun EventPlannerApp(
                 }
             }
         }
+        composable("signup") {
+            SignUpScreen(
+                signUpState = signUpState,
+                onSignUpClicked = { email, password ->
+                    scope.launch {
+                        loginViewModel.signUp(email, password)
+                    }
+                },
+                onBackToLoginClicked = {
+                    navController.popBackStack()
+                    loginViewModel.resetSignUpState()
+                }
+            )
+            LaunchedEffect(signUpState) {
+                if (signUpState is SignUpState.Success) {
+                    // Navigate back to login after a successful sign-up
+                    navController.popBackStack()
+                    loginViewModel.resetSignUpState()
+                }
+            }
+        }
         composable("event_list") {
             EventListScreen(
                 events = eventViewModel.events,
                 onEventClick = { eventId ->
                     navController.navigate("event_detail/$eventId")
                 },
-                onAddEvent = { navController.navigate("add_event") }
+                onAddEvent = { navController.navigate("add_event") },
+                onSignOut = {
+                    loginViewModel.signOut()
+                    navController.navigate("login") {
+                        popUpTo("event_list") { inclusive = true }
+                    }
+                }
             )
         }
 
@@ -102,10 +137,20 @@ fun EventPlannerApp(
 fun EventListScreen(
     events: List<Event>,
     onEventClick: (String) -> Unit,
-    onAddEvent: () -> Unit
+    onAddEvent: () -> Unit,
+    onSignOut: () -> Unit
 ) {
     Scaffold(
-        topBar = { TopAppBar(title = { Text("My Events") }) },
+        topBar = {
+            TopAppBar(
+                title = { Text("My Events") },
+                actions = {
+                    IconButton(onClick = onSignOut) {
+                        Icon(Icons.Default.ExitToApp, "Sign Out")
+                    }
+                }
+            )
+        },
         floatingActionButton = {
             FloatingActionButton(onClick = onAddEvent) {
                 Icon(Icons.Default.Add, "Add Event")
